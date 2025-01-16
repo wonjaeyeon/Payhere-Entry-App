@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools">
-
+    <queries>
+        <!-- 런처가 있는 앱들 전체 조회 가능 -->
+        <intent>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent>
+        <!-- 필요 시 특정 패키지를 열거해도 됨 -->
+        <!-- <package android:name="com.example.someapp" /> -->
+    </queries>
     <application
+            android:name=".PayhereEntryApplication"
             android:allowBackup="true"
             android:dataExtractionRules="@xml/data_extraction_rules"
             android:fullBackupContent="@xml/backup_rules"
@@ -13,13 +22,15 @@
             android:theme="@style/Theme.Payhere_Entry"
             tools:targetApi="31">
         <activity
-                android:name=".MainActivity"
+                android:name=".ui.MainActivity"
                 android:exported="true"
                 android:label="@string/app_name"
+                android:launchMode="singleTask"
                 android:theme="@style/Theme.Payhere_Entry">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
-
+                <category android:name="android.intent.category.HOME" />
+                <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
