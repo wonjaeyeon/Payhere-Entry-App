@@ -1,0 +1,101 @@
+# TODO : 하단에 블로그 보고 1.Unit Test, 2.Emulator test, 3.Release APK build, upload 추가하기
+# ref - https://velog.io/@lyh990517/Android-Github-Actions-%EB%A5%BC-%ED%86%B5%ED%95%B4CICD%EB%A5%BC-%EA%B5%AC%EC%B6%95%ED%95%B4%EB%B3%B4%EC%9E%90
+# ref - Youtube - Android CI/CD Using GitHub Actions || Part 4 || Ajit Singh
+# ref - https://github.com/esthcarelle/Quote
+name: Build and Test Workflow
+
+on:
+  push:
+    branches:
+      - main
+      - hot_fix_architecture_v1
+  pull_request:
+    branches:
+      - main
+      #- develop_v1
+      #- feature_v1
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: 'zulu'
+          cache: gradle
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
+      - name: Build debug
+        run: ./gradlew assembleDebug --stacktrace
+      - name: Upload build outputs (APKs)
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-outputs
+          path: ./app/build/outputs
+
+  unit_test:
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: 'zulu'
+          cache: gradle
+      - name: Run unit tests
+        run: ./gradlew testDebug --stacktrace
+      - name: Upload test reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: unit-test-reports
+          path: ./app/build/reports/tests/testDebugUnitTest
+
+  # latest version - success!!!! (change point : macos-12) // (connectedDebugAndroidTest)
+  integration_test:
+    runs-on: [ macos-12 ]
+    needs: unit_test
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: 'zulu'
+          cache: gradle
+      - name: Run android tests
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 29
+          script: ./gradlew connectedDebugAndroidTest --stacktrace
+
+      - name: Upload android test reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-test-reports
+          path: ./app/build/reports/androidTests/connected/debug
+
+  package:
+    runs-on: ubuntu-latest
+    needs: integration_test
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: 'zulu'
+          cache: gradle
+      - name: Package APK
+        run: ./gradlew assembleRelease --stacktrace
+      - name: Upload packaged APKs
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-outputs
+          path: ./app/build/outputs
