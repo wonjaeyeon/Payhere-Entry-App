@@ -12,12 +12,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.HorizontalDivider
 
+
 @Composable
 fun AppSelectionScreen(
     installedApps: List<String>,
     onAppSelected: (String) -> Unit
 ) {
-    // A simple LazyColumn listing package names
     LazyColumn {
         items(installedApps) { packageName ->
             Text(

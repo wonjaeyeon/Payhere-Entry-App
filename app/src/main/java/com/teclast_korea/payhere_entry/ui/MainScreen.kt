@@ -1,40 +1,84 @@
 package com.teclast_korea.payhere_entry.ui
 
+import android.app.Activity
 import android.content.Context
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.teclast_korea.payhere_entry.data.repository.SelectedAppRepository
 import com.teclast_korea.payhere_entry.data.utils.getInstalledApps
+import com.teclast_korea.payhere_entry.ui.viewmodel.MainViewModel
+
+//@Composable
+//fun MainScreen(repository: SelectedAppRepository) {
+//    val context = LocalContext.current
+//    var showSelectionScreen by remember { mutableStateOf(false) }
+//    // 1) Keep track of the newly selected package
+//    var newlySelectedPackage by remember { mutableStateOf<String?>(null) }
+//
+//    // 2) When newlySelectedPackage changes, do the side-effect
+//    LaunchedEffect(newlySelectedPackage) {
+//        newlySelectedPackage?.let { packageName ->
+//            repository.setSelectedApp(packageName)
+//            launchApp(context, packageName)
+//            // You could also reset newlySelectedPackage = null if you only want it done once
+//        }
+//    }
+//
+//    if (showSelectionScreen) {
+//        val installedApps = getInstalledApps(context)
+//        AppSelectionScreen(
+//            installedApps = installedApps,
+//            onAppSelected = { packageName ->
+//                // Instead of calling LaunchedEffect here, just store the package
+//                newlySelectedPackage = packageName
+//            }
+//        )
+//    } else {
+//        Button(onClick = { showSelectionScreen = true }) {
+//            Text("Switch the entering app")
+//        }
+//    }
+//}
 @Composable
-fun MainScreen(repository: SelectedAppRepository) {
+fun MainScreen(
+    viewModel: MainViewModel = hiltViewModel()
+) {
     val context = LocalContext.current
-    var showSelectionScreen by remember { mutableStateOf(false) }
-    // 1) Keep track of the newly selected package
-    var newlySelectedPackage by remember { mutableStateOf<String?>(null) }
+    val selectedApp = viewModel.selectedApp
 
-    // 2) When newlySelectedPackage changes, do the side-effect
-    LaunchedEffect(newlySelectedPackage) {
-        newlySelectedPackage?.let { packageName ->
-            repository.setSelectedApp(packageName)
-            launchApp(context, packageName)
-            // You could also reset newlySelectedPackage = null if you only want it done once
-        }
-    }
-
-    if (showSelectionScreen) {
+    if (selectedApp == null) {
+        // Show selection UI
         val installedApps = getInstalledApps(context)
         AppSelectionScreen(
             installedApps = installedApps,
             onAppSelected = { packageName ->
-                // Instead of calling LaunchedEffect here, just store the package
-                newlySelectedPackage = packageName
+                viewModel.selectApp(packageName)
             }
         )
     } else {
-        Button(onClick = { showSelectionScreen = true }) {
-            Text("Switch the entering app")
+        // We have a selected app in the DB, so launch it
+
+        // If we do this directly, we need a LaunchedEffect or side-effect
+        // so it doesn't re-launch every time the composable recomposes:
+        LaunchedEffect(selectedApp.packageName) {
+            val launchIntent = context.packageManager.getLaunchIntentForPackage(selectedApp.packageName)
+            if (launchIntent != null) {
+                context.startActivity(launchIntent)
+                // Optional: If you want to close this Activity
+                (context as? Activity)?.finish()
+            }
+        }
+
+        // You can also show some placeholder UI while the app is launching
+        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+            Text("Launching ${selectedApp.packageName}...")
         }
     }
 }
