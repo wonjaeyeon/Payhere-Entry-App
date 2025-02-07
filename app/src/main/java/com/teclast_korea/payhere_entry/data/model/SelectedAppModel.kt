@@ -1,5 +1,12 @@
 package com.teclast_korea.payhere_entry.data.model
 
-data class SelectedAppModel (
-    val packageName: String
+import android.graphics.drawable.Drawable
+
+//data class SelectedAppModel (
+//    val packageName: String
+//)
+
+data class InstalledApp(
+    val packageName: String,
+    val icon: Drawable
 )
