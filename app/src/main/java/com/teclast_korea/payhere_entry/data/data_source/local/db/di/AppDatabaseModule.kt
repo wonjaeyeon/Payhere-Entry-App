@@ -9,24 +9,47 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import jakarta.inject.Singleton
+import javax.inject.Singleton
+//@Module
+//@InstallIn(SingletonComponent::class)
+//class AppDatabaseModule {
+//
+//    @Provides
+//    fun provideSelectedAppDao(appDatabase: AppDatabase) : SelectedAppDao {
+//        return appDatabase.selectedAppDao()
+//    }
+//
+//    @Provides
+//    @Singleton
+//    fun provideAppDatabase(@ApplicationContext appContext: Context): AppDatabase {
+//        return Room.databaseBuilder(
+//            appContext,
+//            AppDatabase::class.java,
+//            "AppDatabase"
+//        ).build()
+//    }
+//}
 
 @Module
 @InstallIn(SingletonComponent::class)
-class AppDatabaseModule {
+object AppDatabaseModule {
 
     @Provides
-    fun provideSelectedAppDao(appDatabase: AppDatabase) : SelectedAppDao {
-        return appDatabase.selectedAppDao()
+    fun provideSelectedAppDao(db: AppDatabase): SelectedAppDao {
+        return db.selectedAppDao()
     }
 
     @Provides
-    @Singleton
-    fun provideAppDatabase(@ApplicationContext appContext: Context): AppDatabase {
+    @Singleton  // Make sure it's from the same annotation library as the rest
+    fun provideAppDatabase(
+        @ApplicationContext context: Context
+    ): AppDatabase {
         return Room.databaseBuilder(
-            appContext,
+            context,
             AppDatabase::class.java,
-            "AppDatabase"
+            "auto_entry_db"
         ).build()
     }
+
+
 }

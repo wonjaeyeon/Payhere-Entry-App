@@ -11,20 +11,4 @@ import com.teclast_korea.payhere_entry.data.data_source.local.db.selected_app.Se
 abstract class AppDatabase : RoomDatabase() {
     abstract fun selectedAppDao(): SelectedAppDao
 
-    companion object {
-        @Volatile
-        private var INSTANCE: AppDatabase? = null
-
-        fun getDatabase(context: Context): AppDatabase {
-            return INSTANCE ?: synchronized(this) {
-                val instance = Room.databaseBuilder(
-                    context.applicationContext,
-                    AppDatabase::class.java,
-                    "auto_entry_db"
-                ).build()
-                INSTANCE = instance
-                instance
-            }
-        }
-    }
 }
