@@ -15,4 +15,8 @@ class SelectedAppRepository @Inject constructor(
         val entity = SelectedAppEntity(id = 0, packageName = packageName)
         selectedAppDao.setSelectedApp(entity)
     }
+
+    suspend fun clearSelectedApp() {
+        selectedAppDao.clearSelectedApp()
+    }
 }
