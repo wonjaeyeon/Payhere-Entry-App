@@ -4,11 +4,13 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface SelectedAppDao {
+
     @Query("SELECT * FROM selected_app WHERE id = 0")
-    suspend fun getSelectedApp(): SelectedAppEntity?
+    fun observeSelectedApp(): Flow<SelectedAppEntity?>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun setSelectedApp(selectedApp: SelectedAppEntity)

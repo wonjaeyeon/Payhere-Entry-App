@@ -10,25 +10,6 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
-//@Module
-//@InstallIn(SingletonComponent::class)
-//class AppDatabaseModule {
-//
-//    @Provides
-//    fun provideSelectedAppDao(appDatabase: AppDatabase) : SelectedAppDao {
-//        return appDatabase.selectedAppDao()
-//    }
-//
-//    @Provides
-//    @Singleton
-//    fun provideAppDatabase(@ApplicationContext appContext: Context): AppDatabase {
-//        return Room.databaseBuilder(
-//            appContext,
-//            AppDatabase::class.java,
-//            "AppDatabase"
-//        ).build()
-//    }
-//}
 
 @Module
 @InstallIn(SingletonComponent::class)

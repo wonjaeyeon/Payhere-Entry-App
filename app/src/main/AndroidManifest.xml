@@ -41,6 +41,7 @@
                 android:exported="true">
             <intent-filter>
                 <action android:name="com.example.yourapp.ACTION_RESET" />
+                <action android:name="com.example.yourapp.ACTION_SET_HOME_APP" />
             </intent-filter>
         </receiver>
     </application>
