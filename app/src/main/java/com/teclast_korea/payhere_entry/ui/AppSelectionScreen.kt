@@ -24,24 +24,7 @@ import androidx.core.graphics.drawable.toBitmap
 import com.teclast_korea.payhere_entry.data.model.InstalledApp
 
 
-//@Composable
-//fun AppSelectionScreen(
-//    installedApps: List<String>,
-//    onAppSelected: (String) -> Unit
-//) {
-//    LazyColumn {
-//        items(installedApps) { packageName ->
-//            Text(
-//                text = packageName,
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .clickable { onAppSelected(packageName) }
-//                    .padding(16.dp)
-//            )
-//            HorizontalDivider()
-//        }
-//    }
-//}
+
 
 @Composable
 fun AppSelectionScreen(

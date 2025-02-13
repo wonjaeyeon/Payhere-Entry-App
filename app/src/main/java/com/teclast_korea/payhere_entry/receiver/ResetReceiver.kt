@@ -62,8 +62,8 @@ class ResetReceiver : BroadcastReceiver() {
 
     companion object {
         // Unique actions
-        const val ACTION_RESET = "com.example.yourapp.ACTION_RESET"
-        const val ACTION_SET_HOME_APP = "com.example.yourapp.ACTION_SET_HOME_APP"
+        const val ACTION_RESET = "ACTION_RESET"
+        const val ACTION_SET_HOME_APP = "ACTION_SET_HOME_APP"
 
         // Key for the package name extra
         const val EXTRA_PACKAGE_NAME = "packageName"

@@ -7,8 +7,6 @@
             <action android:name="android.intent.action.MAIN" />
             <category android:name="android.intent.category.LAUNCHER" />
         </intent>
-        <!-- 필요 시 특정 패키지를 열거해도 됨 -->
-        <!-- <package android:name="com.example.someapp" /> -->
     </queries>
     <application
             android:name=".PayhereEntryApplication"
@@ -40,8 +38,8 @@
                 android:name=".receiver.ResetReceiver"
                 android:exported="true">
             <intent-filter>
-                <action android:name="com.example.yourapp.ACTION_RESET" />
-                <action android:name="com.example.yourapp.ACTION_SET_HOME_APP" />
+                <action android:name="ACTION_RESET" />
+                <action android:name="ACTION_SET_HOME_APP" />
             </intent-filter>
         </receiver>
     </application>
