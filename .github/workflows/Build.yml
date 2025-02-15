@@ -8,12 +8,10 @@ on:
   push:
     branches:
       - main
-      - hot_fix_architecture_v1
   pull_request:
     branches:
       - main
-      #- develop_v1
-      #- feature_v1
+      - develop_v1
 
 jobs:
   build:
