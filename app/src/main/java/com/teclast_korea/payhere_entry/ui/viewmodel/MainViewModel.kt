@@ -32,6 +32,8 @@ class MainViewModel @Inject constructor(
         }
     }
 
+
+    // TODO : If not going to use, delete at the final
     fun clearSelectedApp() {
         viewModelScope.launch {
             repository.clearSelectedApp()

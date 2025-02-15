@@ -16,43 +16,6 @@ import com.teclast_korea.payhere_entry.data.utils.getInstalledApps
 import com.teclast_korea.payhere_entry.ui.viewmodel.MainViewModel
 
 
-//@Composable
-//fun MainScreen(
-//    viewModel: MainViewModel = hiltViewModel()
-//) {
-//    val context = LocalContext.current
-//    val selectedApp = viewModel.selectedApp
-//
-//    if (selectedApp == null) {
-//        // Show selection UI
-//        val installedApps = getInstalledApps(context)
-//        AppSelectionScreen(
-//            installedApps = installedApps,
-//            onAppSelected = { packageName ->
-//                viewModel.selectApp(packageName)
-//            }
-//        )
-//    } else {
-//        // We have a selected app in the DB, so launch it
-//
-//        // If we do this directly, we need a LaunchedEffect or side-effect
-//        // so it doesn't re-launch every time the composable recomposes:
-//        LaunchedEffect(selectedApp.packageName) {
-//            val launchIntent = context.packageManager.getLaunchIntentForPackage(selectedApp.packageName)
-//            if (launchIntent != null) {
-//                context.startActivity(launchIntent)
-//                // Optional: If you want to close this Activity
-//                (context as? Activity)?.finish()
-//            }
-//        }
-//
-//        // You can also show some placeholder UI while the app is launching
-//        Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-//            Text("Launching ${selectedApp.packageName}...")
-//        }
-//    }
-//}
-
 @Composable
 fun MainScreen(
     viewModel: MainViewModel = hiltViewModel()
