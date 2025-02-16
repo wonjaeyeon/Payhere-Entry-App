@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
           xmlns:tools="http://schemas.android.com/tools">
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <queries>
         <!-- 런처가 있는 앱들 전체 조회 가능 -->
         <intent>
@@ -42,6 +43,9 @@
                 <action android:name="ACTION_SET_HOME_APP" />
             </intent-filter>
         </receiver>
+        <service
+                android:name=".service.BackgroundService"
+                android:exported="false" />
     </application>
 
 </manifest>
