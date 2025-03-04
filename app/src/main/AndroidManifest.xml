@@ -33,6 +33,11 @@
             </intent-filter>
         </activity>
 
+        <provider
+                android:name=".provider.SelectedAppProvider"
+                android:authorities="com.teclast_korea.payhere_entry.provider"
+                android:exported="true"
+        />
         <!-- The broadcast receiver is exported so external apps can trigger it -->
         <receiver
                 android:name=".receiver.ResetReceiver"
@@ -40,6 +45,7 @@
             <intent-filter>
                 <action android:name="ACTION_RESET" />
                 <action android:name="ACTION_SET_HOME_APP" />
+                <action android:name="ACTION_TURN_OFF" />
             </intent-filter>
         </receiver>
     </application>
