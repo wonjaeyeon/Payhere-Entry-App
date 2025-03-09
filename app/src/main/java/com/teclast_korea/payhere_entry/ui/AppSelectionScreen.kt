@@ -30,7 +30,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.core.graphics.drawable.toBitmap
 import com.teclast_korea.payhere_entry.data.model.InstalledApp
 
-
 @Composable
 fun AppSelectionScreen(
     installedApps: List<InstalledApp>,
