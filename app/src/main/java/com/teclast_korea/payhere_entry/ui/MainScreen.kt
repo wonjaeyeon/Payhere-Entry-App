@@ -41,8 +41,8 @@ fun MainScreen(
             val launchIntent = context.packageManager.getLaunchIntentForPackage(selectedApp.packageName)
             if (launchIntent != null) {
                 context.startActivity(launchIntent)
-                // Optionally finish your Activity so the user can't go 'back' here
-                (context as? Activity)?.finish()
+                // As Soon as the app is launched, finish this activity. even from Recent Apps.
+                (context as? Activity)?.finishAndRemoveTask()
             }
         }
 

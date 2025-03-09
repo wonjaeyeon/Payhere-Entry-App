@@ -6,6 +6,7 @@ import com.teclast_korea.payhere_entry.data.data_source.local.db.AppDatabase
 import com.teclast_korea.payhere_entry.data.data_source.local.db.selected_app.SelectedAppDao
 import dagger.Module
 import dagger.Provides
+import dagger.hilt.EntryPoint
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent

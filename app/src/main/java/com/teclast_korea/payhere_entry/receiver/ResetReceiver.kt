@@ -12,6 +12,49 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
+//@AndroidEntryPoint
+//class ResetReceiver : BroadcastReceiver() {
+//
+//    @Inject
+//    lateinit var repository: SelectedAppRepository
+//
+//    override fun onReceive(context: Context, intent: Intent) {
+//        when (intent.action) {
+//            ACTION_RESET -> {
+//                // Clear the DB entry on an IO thread
+//                CoroutineScope(Dispatchers.IO).launch {
+//                    repository.clearSelectedApp()
+//                    Log.i("ResetReceiver", "Cleared selected app")
+//                }
+//            }
+//
+//            ACTION_SET_HOME_APP -> {
+//                // We'll read the package name from an extra. Example: "packageName"
+//                val packageName = intent.getStringExtra(EXTRA_PACKAGE_NAME)
+//                if (!packageName.isNullOrEmpty()) {
+//                    CoroutineScope(Dispatchers.IO).launch {
+//                        repository.setSelectedApp(packageName)
+//                        Log.i("ResetReceiver", "Set selected app to $packageName")
+//                    }
+//                } else {
+//                    Log.w("ResetReceiver", "No packageName extra found in ACTION_SET_HOME_APP broadcast.")
+//                }
+//            }
+//        }
+//    }
+//
+//    companion object {
+//        // Unique actions
+//        const val ACTION_RESET = "ACTION_RESET"
+//        const val ACTION_SET_HOME_APP = "ACTION_SET_HOME_APP"
+//
+//        // Key for the package name extra
+//        const val EXTRA_PACKAGE_NAME = "packageName"
+//    }
+//}
+//
+
+
 @AndroidEntryPoint
 class ResetReceiver : BroadcastReceiver() {
 
@@ -21,34 +64,46 @@ class ResetReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         when (intent.action) {
             ACTION_RESET -> {
-                // Clear the DB entry on an IO thread
                 CoroutineScope(Dispatchers.IO).launch {
                     repository.clearSelectedApp()
-                    Log.i("ResetReceiver", "Cleared selected app")
+                    Log.i(TAG, "Cleared selected app")
                 }
             }
 
             ACTION_SET_HOME_APP -> {
-                // We'll read the package name from an extra. Example: "packageName"
                 val packageName = intent.getStringExtra(EXTRA_PACKAGE_NAME)
                 if (!packageName.isNullOrEmpty()) {
                     CoroutineScope(Dispatchers.IO).launch {
                         repository.setSelectedApp(packageName)
-                        Log.i("ResetReceiver", "Set selected app to $packageName")
+                        Log.i(TAG, "Set selected app to $packageName")
                     }
                 } else {
-                    Log.w("ResetReceiver", "No packageName extra found in ACTION_SET_HOME_APP broadcast.")
+                    Log.w(TAG, "No packageName provided for ACTION_SET_HOME_APP.")
                 }
+            }
+
+            ACTION_TURN_OFF -> {
+                // 여기서 "Entry App" 프로세스를 자발적 종료하는 로직
+                // (1) 가장 단순: 강제 kill. 비추천
+                // android.os.Process.killProcess(android.os.Process.myPid())
+
+                // (2) MainActivity에게 "finish()" 요청
+                // 보통은 LocalBroadcastManager나 SharedFlow 등을 통해
+                // MainActivity가 살아 있다면 finishAffinity() 등으로 종료
+
+                Log.i(TAG, "Received ACTION_TURN_OFF - attempting to exit Entry App")
+                android.os.Process.killProcess(android.os.Process.myPid())
             }
         }
     }
 
     companion object {
-        // Unique actions
         const val ACTION_RESET = "ACTION_RESET"
         const val ACTION_SET_HOME_APP = "ACTION_SET_HOME_APP"
+        const val ACTION_TURN_OFF = "ACTION_TURN_OFF"
 
-        // Key for the package name extra
         const val EXTRA_PACKAGE_NAME = "packageName"
+
+        private const val TAG = "ResetReceiver"
     }
 }
