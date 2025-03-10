@@ -84,13 +84,6 @@ class ResetReceiver : BroadcastReceiver() {
 
             ACTION_TURN_OFF -> {
                 // 여기서 "Entry App" 프로세스를 자발적 종료하는 로직
-                // (1) 가장 단순: 강제 kill. 비추천
-                // android.os.Process.killProcess(android.os.Process.myPid())
-
-                // (2) MainActivity에게 "finish()" 요청
-                // 보통은 LocalBroadcastManager나 SharedFlow 등을 통해
-                // MainActivity가 살아 있다면 finishAffinity() 등으로 종료
-
                 Log.i(TAG, "Received ACTION_TURN_OFF - attempting to exit Entry App")
                 android.os.Process.killProcess(android.os.Process.myPid())
             }

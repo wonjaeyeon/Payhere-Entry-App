@@ -4,11 +4,11 @@ import android.content.Context
 import com.teclast_korea.payhere_entry.data.model.InstalledApp
 
 
-fun getInstalledApps(context: Context): List<InstalledApp> {
+fun getInstalledPayhereApps(context: Context): List<InstalledApp> {
     val pm = context.packageManager
     val allApps = pm.getInstalledApplications(0)
 
-    // Filter: only apps whose package name contains "payhere" (case-insensitive),
+    // Filter: only apps whose package name contains "payhere"
     // but exclude "com.teclast_korea.payhere_entry"
     val filtered = allApps.filter { appInfo ->
         appInfo.packageName.contains("payhere", ignoreCase = true) &&
@@ -16,8 +16,10 @@ fun getInstalledApps(context: Context): List<InstalledApp> {
     }
 
     return filtered.map { appInfo ->
+        val label = pm.getApplicationLabel(appInfo).toString()  // Get the friendly name
         InstalledApp(
             packageName = appInfo.packageName,
+            appName = label,
             icon = pm.getApplicationIcon(appInfo)
         )
     }

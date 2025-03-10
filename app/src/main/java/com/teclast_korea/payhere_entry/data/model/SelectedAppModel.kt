@@ -5,5 +5,6 @@ import android.graphics.drawable.Drawable
 
 data class InstalledApp(
     val packageName: String,
+    val appName: String,  // <-- Add this field
     val icon: Drawable
 )

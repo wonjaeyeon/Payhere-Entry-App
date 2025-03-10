@@ -1,18 +1,16 @@
 package com.teclast_korea.payhere_entry.ui
 
 import android.app.Activity
-import android.content.Context
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.teclast_korea.payhere_entry.data.repository.SelectedAppRepository
-import com.teclast_korea.payhere_entry.data.utils.getInstalledApps
+import com.teclast_korea.payhere_entry.data.utils.getInstalledNonPayhereApps
+import com.teclast_korea.payhere_entry.data.utils.getInstalledPayhereApps
 import com.teclast_korea.payhere_entry.ui.viewmodel.MainViewModel
 
 
@@ -27,9 +25,11 @@ fun MainScreen(
 
     if (selectedApp == null) {
         // Show selection UI
-        val installedApps = getInstalledApps(context)
+        val installedPayhereApps = getInstalledPayhereApps(context)
+        val installedOtherApps = getInstalledNonPayhereApps(context)
         AppSelectionScreen(
-            installedApps = installedApps,
+            payhereApps = installedPayhereApps,
+            otherApps = installedOtherApps,
             onAppSelected = { packageName ->
                 viewModel.selectApp(packageName)
             }
